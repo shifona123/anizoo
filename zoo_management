@@ -1,0 +1,167 @@
+CREATE DATABASE zoo_management;
+
+USE zoo_management;
+CREATE TABLE users(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255)NOT NULL);
+
+
+
+CREATE TABLE animals(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255)NOT NULL,
+    description VARCHAR(500) NOT NULL,
+    image_url VARCHAR(255)NOT NULL);
+    
+    INSERT INTO animals(name,description,image_url)
+    VALUES
+    ('Indochinese Tiger','The Indochinese tiger is a tiger from a specific population of the Panthera tigris subspecies.','uploads/tiger1.jpg'),
+    ('Lion','The lion is a wild terrestrial animal called the king of the forest. The lion is a strong animal with a strong body, a big head, a majestic mane, and two fierce eyes.','uploads/lion1.jpg'), 
+    ('Recticulated Giraffe','The recticulated giraffe is also known as the the somali giraffe.','uploads/giraffe1.jpg'),
+    ('Sloth Bear','The sloth bear is a myrmecophagous bear species native to the Indian subcontinent.','uploads/bear1.jpg');
+    
+    
+    CREATE TABLE animal (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    breed_name VARCHAR(255) NOT NULL,
+    cage_number INT NOT NULL,
+    feed_number INT NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    detail_image VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL
+);
+INSERT INTO animal (name, breed_name, cage_number, feed_number, image, detail_image, description) VALUES
+    ('Giraffe (Masai Giraffe)', 'Masai Giraffe', 101, 5, 'giraffe_masai.jpg', 'giraffe_masai_large.jpg', 'The Masai giraffe is the largest species of giraffe, known for its irregular spots.'),
+    ('Giraffe (Reticulated Giraffe)', 'Reticulated Giraffe', 102, 5, 'giraffe_reticulated.jpg', 'giraffe_reticulated_large.jpg', 'Reticulated Giraffes have a striking net-like pattern on their fur.'),
+    ('Tiger (Bengal Tiger)', 'Bengal Tiger', 201, 8, 'tiger_bengal.jpg', 'tiger_bengal_large.jpg', 'The Bengal Tiger is the most numerous tiger subspecies, found in India and Bangladesh.'),
+    ('Tiger (Siberian Tiger)', 'Siberian Tiger', 202, 9, 'tiger_siberian.jpg', 'tiger_siberian_large.jpg', 'Siberian tigers are the largest wild cats in the world, native to Russia.'),
+    ('Tiger (Indochinese Tiger)', 'Indochinese Tiger', 203, 7, 'tiger_indochinese.jpg', 'tiger_indochinese_large.jpg', 'This tiger subspecies inhabits forests of Southeast Asia.'),
+    ('Bear (Sloth Bear)', 'Sloth Bear', 301, 6, 'bear_sloth.jpg', 'bear_sloth_large.jpg', 'Sloth Bears are nocturnal and feed primarily on insects and fruits.'),
+    ('Bear (Sun Bear)', 'Sun Bear', 302, 6, 'bear_sun.jpg', 'bear_sun_large.jpg', 'Sun Bears are the smallest bear species, found in Southeast Asia.');
+
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+INSERT INTO admins (username, password) 
+VALUES ('admin', MD5('yourpassword'));
+
+
+    
+    CREATE TABLE dashboard_stats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    total_animals INT NOT NULL DEFAULT 0,
+    total_normal_adult INT NOT NULL DEFAULT 0,
+    today_normal_adult INT NOT NULL DEFAULT 0,
+    today_normal_children INT NOT NULL DEFAULT 0,
+    yesterday_normal_adult INT NOT NULL DEFAULT 0,
+    yesterday_normal_children INT NOT NULL DEFAULT 0,
+    total_foreigner_adult INT NOT NULL DEFAULT 0,
+    total_foreigner_children INT NOT NULL DEFAULT 0,
+    today_foreigner_adult INT NOT NULL DEFAULT 0,
+    today_foreigner_children INT NOT NULL DEFAULT 0,
+    yesterday_foreigner_adult INT NOT NULL DEFAULT 0,
+    yesterday_foreigner_children INT NOT NULL DEFAULT 0
+);
+
+-- Insert some sample data
+INSERT INTO dashboard_stats (total_animals, total_normal_adult, today_normal_adult, today_normal_children, yesterday_normal_adult, yesterday_normal_children, total_foreigner_adult, total_foreigner_children, today_foreigner_adult, today_foreigner_children, yesterday_foreigner_adult, yesterday_foreigner_children)
+VALUES (8, 6, 0, 0, 0, 0, 6, 3, 0, 0, 0, 0);
+CREATE TABLE visitors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('normal', 'foreigner') NOT NULL,
+    category ENUM('adult', 'child') NOT NULL,
+    visit_date DATE DEFAULT CURDATE()
+);
+
+INSERT INTO visitors (type, category, visit_date) VALUES 
+('normal', 'adult', '2025-03-20'),
+('normal', 'child', '2025-03-20'),
+('normal', 'adult', '2025-03-21'),
+('foreigner', 'adult', '2025-03-21'),
+('foreigner', 'child', '2025-03-21'),
+('normal', 'adult', '2025-03-19'),
+('normal', 'child', '2025-03-19'),
+('foreigner', 'adult', '2025-03-19'),
+('foreigner', 'child', '2025-03-19');
+
+
+CREATE TABLE add_animals (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    cage_number VARCHAR(50) NOT NULL,
+    feed_number VARCHAR(50) NOT NULL,
+    breed VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE visitors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type ENUM('normal_adult', 'normal_child', 'foreigner_adult', 'foreigner_child') NOT NULL,
+    visit_date DATE NOT NULL
+);
+INSERT INTO visitors (name, type, visit_date) VALUES
+('John Doe', 'normal_adult', '2024-03-18'),
+('Jane Smith', 'normal_child', '2024-03-18'),
+('Michael Brown', 'foreigner_adult', '2024-03-18'),
+('Emily Davis', 'foreigner_child', '2024-03-17'),
+('Robert Wilson', 'normal_adult', '2024-03-17'),
+('Sophia Martinez', 'normal_child', '2024-03-17'),
+('David Johnson', 'normal_adult', '2024-03-19'),
+('Olivia Garcia', 'normal_child', '2024-03-19');
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE visitors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('normal', 'foreigner') NOT NULL,
+    category ENUM('adult', 'child') NOT NULL,
+    visit_date DATE DEFAULT CURDATE()
+);
+
+INSERT INTO visitors (type, category, visit_date) VALUES 
+('normal', 'adult', '2025-03-20'),
+('normal', 'child', '2025-03-20'),
+('normal', 'adult', '2025-03-21'),
+('foreigner', 'adult', '2025-03-21'),
+('foreigner', 'child', '2025-03-21'),
+('normal', 'adult', '2025-03-19'),
+('normal', 'child', '2025-03-19'),
+('foreigner', 'adult', '2025-03-19'),
+('foreigner', 'child', '2025-03-19');
+
+
+CREATE TABLE add_animals(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    cage_number VARCHAR(50) NOT NULL,
+    feed_number VARCHAR(50) NOT NULL,
+    breed VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL
+);
+
+
+CREATE TABLE manage_animals (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cage_number VARCHAR(50) NOT NULL,
+    animal_name VARCHAR(100) NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
